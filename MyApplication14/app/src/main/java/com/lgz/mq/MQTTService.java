@@ -47,7 +47,7 @@ public class MQTTService extends Service {
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
             if (msg.what == 1) {
-                sendNotification(msg.toString());
+                sendNotification(msg.obj.toString());
             } else if (msg.what == 2) {
                 System.out.println("连接成功");
                 Toast.makeText(getApplicationContext(), "连接成功", Toast.LENGTH_SHORT).show();
@@ -154,12 +154,12 @@ public class MQTTService extends Service {
                     connect();
                 }
             }
-        }, 1 * 1000, 10 * 1000, TimeUnit.MILLISECONDS);
+        }, 0* 1000, 10 * 1000, TimeUnit.MILLISECONDS);
     }
 
     public void sendNotification(String  string){
         notificationManager = (NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE);
-        Intent intent = new Intent(this, ActivityB.class);
+        Intent intent = new Intent(this, MainActivity.class);
         // 创建一个点击通知的处理
         PendingIntent pendingIntent = PendingIntent.getActivities(this, 0, new Intent[]{intent} ,0);
         Notification.Builder builder = new Notification.Builder(this);
@@ -170,7 +170,7 @@ public class MQTTService extends Service {
         // 设置通知的时间（此处去系统的当前时间）
         builder.setWhen(System.currentTimeMillis());
         // 设置通知的标题
-        builder.setContentTitle("通知标题");
+        builder.setContentTitle("新工单通知");
         // 设置通知的内容
         builder.setContentText(string);
         // 设置点击跳转
